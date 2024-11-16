@@ -1,162 +1,198 @@
+<script setup>
+import { ref } from 'vue';
+
+const items = ref([
+    {
+        label: 'Update',
+        icon: 'pi pi-refresh'
+    },
+    {
+        label: 'Delete',
+        icon: 'pi pi-times'
+    },
+    {
+        separator: true
+    },
+    {
+        label: 'Home',
+        icon: 'pi pi-home'
+    }
+]);
+
+const loading = ref([false, false, false]);
+
+function load(index) {
+    loading.value[index] = true;
+    setTimeout(() => (loading.value[index] = false), 1000);
+}
+</script>
+
 <template>
-    <Fluid>
-        <div class="flex flex-col md:flex-row gap-8">
-            <div class="md:w-1/2">
-                <div class="card flex flex-col gap-4 p-6 shadow-lg rounded-lg">
-                    <div class="font-semibold text-xl">Formulario de Producto</div>
-
-                    <!-- Campo de ID para ingresar el ID del producto -->
-                    <div class="flex flex-col gap-2">
-                        <label for="id" class="text-gray-700">ID</label>
-                        <InputText v-model="id" id="id" type="text" class="p-2 border border-gray-300 rounded" />
-                    </div>
-
-                    <!-- Campo para mostrar el nombre del producto -->
-                    <div class="flex flex-col gap-2">
-                        <label for="nombre" class="text-gray-700">Nombre</label>
-                        <InputText v-model="nombre" id="nombre" type="text" class="p-2 border border-gray-300 rounded" readonly />
-                    </div>
-
-                    <!-- Campo para mostrar el color del producto -->
-                    <div class="flex flex-col gap-2">
-                        <label for="color" class="text-gray-700">Color</label>
-                        <InputText v-model="color" id="color" type="text" class="p-2 border border-gray-300 rounded" readonly />
-                    </div>
-
-                    <!-- Campo para mostrar la capacidad del producto -->
-                    <div class="flex flex-col gap-2">
-                        <label for="capacidad" class="text-gray-700">Capacidad</label>
-                        <InputText v-model="capacidad" id="capacidad" type="text" class="p-2 border border-gray-300 rounded" readonly />
-                    </div>
-
-                    <!-- Botón para consultar un producto por ID -->
-                    <button
-                        type="button"
-                        @click="cargarProducto"
-                        class="mt-4 bg-green-500 text-white py-2 px-4 rounded cursor-pointer hover:bg-green-600 transition">
-                        Consultar Producto por ID
-                    </button>
-                    <div v-if="loading" class="text-center mt-4 text-gray-600">Cargando...</div>
+    <div class="flex flex-col md:flex-row gap-8">
+        <div class="md:w-1/2">
+            <div class="card flex flex-col gap-4">
+                <div class="font-semibold text-xl">Default</div>
+                <div class="flex flex-wrap gap-2">
+                    <Button label="Submit"></Button>
+                    <Button label="Disabled" :disabled="true"></Button>
+                    <Button label="Link" class="p-button-link" />
+                </div>
+            </div>
+            <div class="card flex flex-col gap-4">
+                <div class="font-semibold text-xl">Severities</div>
+                <div class="flex flex-wrap gap-2">
+                    <Button label="Primary" />
+                    <Button label="Secondary" severity="secondary" />
+                    <Button label="Success" severity="success" />
+                    <Button label="Info" severity="info" />
+                    <Button label="Warn" severity="warn" />
+                    <Button label="Help" severity="help" />
+                    <Button label="Danger" severity="danger" />
+                    <Button label="Contrast" severity="contrast" />
+                </div>
+            </div>
+            <div class="card flex flex-col gap-4">
+                <div class="font-semibold text-xl">Text</div>
+                <div class="flex flex-wrap gap-2">
+                    <Button label="Primary" text />
+                    <Button label="Secondary" severity="secondary" text />
+                    <Button label="Success" severity="success" text />
+                    <Button label="Info" severity="info" text />
+                    <Button label="Warn" severity="warn" text />
+                    <Button label="Help" severity="help" text />
+                    <Button label="Danger" severity="danger" text />
+                    <Button label="Plain" plain text />
+                </div>
+            </div>
+            <div class="card flex flex-col gap-4">
+                <div class="font-semibold text-xl">Outlined</div>
+                <div class="flex flex-wrap gap-2">
+                    <Button label="Primary" outlined />
+                    <Button label="Secondary" severity="secondary" outlined />
+                    <Button label="Success" severity="success" outlined />
+                    <Button label="Info" severity="info" outlined />
+                    <Button label="warn" severity="warn" outlined />
+                    <Button label="Help" severity="help" outlined />
+                    <Button label="Danger" severity="danger" outlined />
+                    <Button label="Contrast" severity="contrast" outlined />
+                </div>
+            </div>
+            <div class="card flex flex-col gap-4">
+                <div class="font-semibold text-xl">Group</div>
+                <div class="flex flex-wrap gap-2">
+                    <ButtonGroup>
+                        <Button label="Save" icon="pi pi-check" />
+                        <Button label="Delete" icon="pi pi-trash" />
+                        <Button label="Cancel" icon="pi pi-times" />
+                    </ButtonGroup>
+                </div>
+            </div>
+            <div class="card flex flex-col gap-4">
+                <div class="font-semibold text-xl">SplitButton</div>
+                <div class="flex flex-wrap gap-2">
+                    <SplitButton label="Save" :model="items"></SplitButton>
+                    <SplitButton label="Save" :model="items" severity="secondary"></SplitButton>
+                    <SplitButton label="Save" :model="items" severity="success"></SplitButton>
+                    <SplitButton label="Save" :model="items" severity="info"></SplitButton>
+                    <SplitButton label="Save" :model="items" severity="warn"></SplitButton>
+                    <SplitButton label="Save" :model="items" severity="help"></SplitButton>
+                    <SplitButton label="Save" :model="items" severity="danger"></SplitButton>
+                    <SplitButton label="Save" :model="items" severity="contrast"></SplitButton>
+                </div>
+            </div>
+            <div class="card flex flex-col gap-4">
+                <div class="font-semibold text-xl">Templating</div>
+                <div class="flex flex-wrap gap-2">
+                    <Button type="button">
+                        <img alt="logo" src="/demo/images/logo-white.svg" style="width: 1.5rem" />
+                    </Button>
+                    <Button type="button" outlined severity="success">
+                        <img alt="logo" src="/demo/images/logo.svg" style="width: 1.5rem" />
+                        <span class="ml-2 text-bold">PrimeVue</span>
+                    </Button>
                 </div>
             </div>
         </div>
-
-        <!-- Tabla para mostrar todos los productos obtenidos -->
-        <div class="mt-8">
-            <h2 class="font-semibold text-xl">Lista de Productos</h2>
-            <table class="min-w-full bg-white border border-gray-300 rounded mt-4">
-                <thead>
-                    <tr>
-                        <th class="py-2 px-4 border-b">ID</th>
-                        <th class="py-2 px-4 border-b">Nombre</th>
-                        <th class="py-2 px-4 border-b">Color</th>
-                        <th class="py-2 px-4 border-b">Capacidad</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-if="productos.length === 0">
-                        <td colspan="4" class="py-2 px-4 border-b text-center text-gray-500">No hay productos disponibles</td>
-                    </tr>
-                    <tr v-else v-for="producto in productosOrdenados" :key="producto.id">
-                        <td class="py-2 px-4 border-b">{{ producto.id }}</td>
-                        <td class="py-2 px-4 border-b">{{ producto.name }}</td>
-                        <td class="py-2 px-4 border-b">{{ producto.data?.color || 'N/A' }}</td>
-                        <td class="py-2 px-4 border-b">{{ producto.data?.capacity || producto.data?.['capacity GB'] || 'N/A' }}</td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="md:w-1/2">
+            <div class="card flex flex-col gap-4">
+                <div class="font-semibold text-xl">Icons</div>
+                <div class="flex flex-wrap gap-2">
+                    <Button icon="pi pi-star-fill" class="mr-2 mb-2"></Button>
+                    <Button label="Bookmark" icon="pi pi-bookmark" class="mr-2 mb-2"></Button>
+                    <Button label="Bookmark" icon="pi pi-bookmark" iconPos="right" class="mr-2 mb-2"></Button>
+                </div>
+            </div>
+            <div class="card flex flex-col gap-4">
+                <div class="font-semibold text-xl">Raised</div>
+                <div class="flex flex-wrap gap-2">
+                    <Button label="Primary" raised />
+                    <Button label="Secondary" severity="secondary" raised />
+                    <Button label="Success" severity="success" raised />
+                    <Button label="Info" severity="info" raised />
+                    <Button label="Warn" severity="warn" raised />
+                    <Button label="Help" severity="help" raised />
+                    <Button label="Danger" severity="danger" raised />
+                    <Button label="Contrast" severity="contrast" raised />
+                </div>
+            </div>
+            <div class="card flex flex-col gap-4">
+                <div class="font-semibold text-xl">Rounded</div>
+                <div class="flex flex-wrap gap-2">
+                    <Button label="Primary" rounded />
+                    <Button label="Secondary" severity="secondary" rounded />
+                    <Button label="Success" severity="success" rounded />
+                    <Button label="Info" severity="info" rounded />
+                    <Button label="Warn" severity="warn" rounded />
+                    <Button label="Help" severity="help" rounded />
+                    <Button label="Danger" severity="danger" rounded />
+                    <Button label="Contrast" severity="contrast" rounded />
+                </div>
+            </div>
+            <div class="card flex flex-col gap-4">
+                <div class="font-semibold text-xl">Rounded Icons</div>
+                <div class="flex flex-wrap gap-2">
+                    <Button icon="pi pi-check" rounded />
+                    <Button icon="pi pi-bookmark" severity="secondary" rounded />
+                    <Button icon="pi pi-search" severity="success" rounded />
+                    <Button icon="pi pi-user" severity="info" rounded />
+                    <Button icon="pi pi-bell" severity="warn" rounded />
+                    <Button icon="pi pi-heart" severity="help" rounded />
+                    <Button icon="pi pi-times" severity="danger" rounded />
+                </div>
+            </div>
+            <div class="card flex flex-col gap-4">
+                <div class="font-semibold text-xl">Rounded Text</div>
+                <div class="flex flex-wrap gap-2">
+                    <Button icon="pi pi-check" text raised rounded />
+                    <Button icon="pi pi-bookmark" severity="secondary" text raised rounded />
+                    <Button icon="pi pi-search" severity="success" text raised rounded />
+                    <Button icon="pi pi-user" severity="info" text raised rounded />
+                    <Button icon="pi pi-bell" severity="warn" text raised rounded />
+                    <Button icon="pi pi-heart" severity="help" text raised rounded />
+                    <Button icon="pi pi-times" severity="danger" text raised rounded />
+                </div>
+            </div>
+            <div class="card flex flex-col gap-4">
+                <div class="font-semibold text-xl">Rounded Outlined</div>
+                <div class="flex flex-wrap gap-2">
+                    <Button icon="pi pi-check" rounded outlined />
+                    <Button icon="pi pi-bookmark" severity="secondary" rounded outlined />
+                    <Button icon="pi pi-search" severity="success" rounded outlined />
+                    <Button icon="pi pi-user" severity="info" rounded outlined />
+                    <Button icon="pi pi-bell" severity="warn" rounded outlined />
+                    <Button icon="pi pi-heart" severity="help" rounded outlined />
+                    <Button icon="pi pi-times" severity="danger" rounded outlined />
+                </div>
+            </div>
+            <div class="card flex flex-col gap-4">
+                <div class="font-semibold text-xl">Loading</div>
+                <div class="flex flex-wrap gap-2">
+                    <Button type="button" class="mr-2 mb-2" label="Search" icon="pi pi-search" :loading="loading[0]" @click="load(0)" />
+                    <Button type="button" class="mr-2 mb-2" label="Search" icon="pi pi-search" iconPos="right" :loading="loading[1]" @click="load(1)" />
+                    <Button type="button" class="mr-2 mb-2" icon="pi pi-search" :loading="loading[2]" @click="load(2)" />
+                    <Button type="button" class="mr-2 mb-2" label="Search" :loading="loading[3]" @click="load(3)" />
+                </div>
+            </div>
         </div>
-    </Fluid>
+    </div>
 </template>
-
-<script>
-import axios from 'axios';
-
-export default {
-    data() {
-        return {
-            id: '',
-            nombre: '',
-            color: '',
-            capacidad: '',
-            productos: [],
-            loading: false // Indicador de carga
-        };
-    },
-    computed: {
-        productosOrdenados() {
-            return this.productos.sort((a, b) => a.id - b.id);
-        }
-    },
-    methods: {
-        cargarProducto() {
-            if (!this.id.trim()) {
-                alert('Por favor, ingrese un ID de producto.');
-                return;
-            }
-
-            this.loading = true;
-            axios
-                .get(`https://api.restful-api.dev/objects/${this.id}`) // Usa backticks
-                .then((response) => {
-                    if (response.data) {
-                        const producto = response.data;
-                        this.nombre = producto.name || 'No disponible';
-                        this.color = producto.data?.color || 'N/A';
-                        this.capacidad = producto.data?.capacity || producto.data?.['capacity GB'] || 'N/A';
-                    } else {
-                        alert('No se encontró el producto con el ID especificado.');
-                    }
-                })
-                .catch((error) => {
-                    this.handleError(error);
-                })
-                .finally(() => {
-                    this.loading = false;
-                });
-        },
-        cargarProductos() {
-            this.loading = true;
-            axios
-                .get('https://api.restful-api.dev/objects')
-                .then((response) => {
-                    if (Array.isArray(response.data)) {
-                        this.productos = response.data.map(producto => ({
-                            ...producto,
-                            color: producto.data?.color || 'N/A',
-                            capacidad: producto.data?.capacity || producto.data?.['capacity GB'] || 'N/A'
-                        }));
-                    } else {
-                        alert('No se pudo obtener la lista de productos.');
-                    }
-                })
-                .catch((error) => {
-                    this.handleError(error);
-                })
-                .finally(() => {
-                    this.loading = false;
-                });
-        },
-        handleError(error) {
-            console.error('Error al consultar la API:', error);
-            if (error.response) {
-                alert(`Error del servidor: ${error.response.status} - ${error.response.data}`); // Corrige la interpolación
-            } else if (error.request) {
-                alert('Error de red: no se recibió respuesta del servidor.');
-            } else {
-                alert('Error al procesar la solicitud: ' + error.message);
-            }
-        }
-    },
-    mounted() {
-        this.cargarProductos();
-    }
-};
-</script>
-
-<style scoped>
-.card {
-    background-color: white;
-}
-</style>
-
